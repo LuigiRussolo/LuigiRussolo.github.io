@@ -1,0 +1,504 @@
+<html>
+   <head>
+   <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' >
+   <title>lab 8</title>
+
+   <style type="text/css">
+   TABLE {
+    width: 50%; /* Ширина таблицы */
+    height: 50%; /* Высота таблицы */   
+   } 
+   
+   #image {
+  height: 256;
+  width: 256;
+background: 
+url('sprite.png') 0px 0px;
+}
+  </style>
+ 
+
+<script type="text/javascript">
+//////////////////////1: Площадь треугольника///////////////////////////
+
+function S() {
+var x1 = parseInt(f1.x1.value);
+var y1 = parseInt(f1.y1.value);
+var x2 = parseInt(f1.x2.value);
+var y2 = parseInt(f1.y2.value);
+var x3 = parseInt(f1.x3.value);
+var y3 = parseInt(f1.y3.value);
+var a = Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
+var b = Math.sqrt(Math.pow(x3-x2,2)+Math.pow(y3-y2,2));
+var c = Math.sqrt(Math.pow(x3-x1,2)+Math.pow(y3-y1,2));
+var p = (a+b+c)/2;
+var pl = Math.sqrt(p*(p-a)*(p-b)*(p-c)); 
+f1.result.value=pl;
+}
+
+//////////////////////2: Замена полей///////////////////////////
+
+function change() {
+var string1 = f2.string1.value;
+var string2 = f2.string2.value;
+var buffer = f2.string2.value;
+f2.string1.value=buffer;
+f2.string2.value=string1;
+}
+
+//////////////////////3: Найти max (введите числа через запятую)///////////////////////////
+
+function find_max() {
+var arr = f3.string1.value.split(',');
+f3.string1.value = Math.max.apply(null, arr);
+}
+
+//////////////////////4: Проверка условия существования треугольника///////////////////////////
+
+function solve() {
+var a = parseFloat(f4.string1.value);
+var b = parseFloat(f4.string2.value);
+var c = parseFloat(f4.string3.value);
+
+if((a+b)>c&&(c+b)>a&&(a+c)>b) {alert('такой треугольник существует');}
+else {alert('такой треугольник не существует');}
+}
+
+//////////////////////5: Изменение размера картинки (можно увеличить до 4ых раз наведением курсора)///////////////////////////
+
+var timer = []; 
+var global_height; 
+function changeSizeImage(im) {
+ 
+if(parseInt(im.height)<=500) 
+{ 
+timer = setInterval(function() { global_height = im.height; im.height = global_height+1; }, 10);
+
+setTimeout(function() { clearInterval(timer);}, 1000);
+}
+}
+
+//////////////////////6: Изменение свойств линии///////////////////////////
+
+function hr_longer() { hr1.width=parseInt(hr1.width)+15; }
+
+function hr_shorter() { hr1.width=parseInt(hr1.width)-15; }
+
+function hr_left() { hr1.align="left"; }
+
+function hr_right() { hr1.align="right"; }
+
+function hr_reset() { hr1.width="300"; hr1.align="center"; }
+
+//////////////////////7: Определение стоимости анкеты///////////////////////////
+
+function count_cost()
+{
+var cost=0;
+	
+	switch(kurs.value)
+	{
+		case("C++"): cost+=3500; break;
+		case("C#"):  cost+=1500; break;
+		case("PHP"): cost+=2000; break;
+		case("ASM"): cost+=4500; break;
+	}
+	
+	switch(_length.value)
+	{
+		case("3month"): break;
+		case("6month"): cost*=2; break;
+	}
+	
+	switch(language.value)
+	{
+		case("eng"): cost+=cost/2; break;
+		case("ukr"):  break;
+		case("oth"): cost+=cost/4; break;
+	}
+	
+	switch(report_form.value)
+	{
+		case("exam"): cost+=100; break;
+		case("kurs"): cost+=200; break;
+	}
+	
+alert('КУРС КОШТУЄ: ' + cost + 'грн');
+
+}
+
+//////////////////////8: Выбор картинки и/или цвета фону для таблицы в целом и для каждой ее ячейки///////////////////////////
+
+function edit_table()
+{
+var t = document.getElementById("table_f8");
+var trs = t.getElementsByTagName("tr");
+var tds = null;
+var num=0;
+
+if(_cell.value==0)
+{
+switch(img_or_color.value)
+{
+case "_color" : for (var i=0; i<trs.length; i++) {tds = trs[i].getElementsByTagName("td"); for (var n=0; n<trs.length;n++) {tds[n].style.backgroundImage="url('')"; tds[n].style.backgroundColor="initial";}} t.style.backgroundImage="url('')"; t.style.backgroundColor=_color.value; break;
+
+case "_image" : for (var i=0; i<trs.length; i++) {tds = trs[i].getElementsByTagName("td"); for (var n=0; n<trs.length;n++) {tds[n].style.backgroundImage="url('')"; tds[n].style.backgroundColor="initial";}} t.style.backgroundImage="url('cat_pic_small.png')"; break;
+}
+}
+else
+if(_cell.value>9) alert('такой ячейки не существует');
+else
+{
+if(img_or_color.value=="_color")
+for (var i=0; i<trs.length; i++)
+{
+    tds = trs[i].getElementsByTagName("td");
+    for (var n=0; n<trs.length;n++)
+    {
+		num++;	
+		
+		if(num==_cell.value)
+        {tds[n].style.backgroundImage="url('')"; tds[n].style.backgroundColor=_color.value;	}
+    }
+}
+
+if(img_or_color.value=="_image")
+for (var i=0; i<trs.length; i++)
+{
+    tds = trs[i].getElementsByTagName("td");
+    for (var n=0; n<trs.length;n++)
+    {
+		num++;	
+		
+		if(num==_cell.value)
+        tds[n].style.backgroundImage="url('cat_pic_small.png')";
+    }
+}
+}
+}
+
+//////////////////////9: Расчет стоимости///////////////////////////
+
+function count_product_price()
+{
+var cost=0;
+	
+if (f9._1.checked) cost+=parseInt(number1.value)*50; 
+
+if (f9._2.checked) cost+=parseInt(number2.value)*60; 
+
+if (f9._3.checked) cost+=parseInt(number3.value)*35; 
+
+if (f9._4.checked) cost+=parseInt(number4.value)*20; 
+
+if (f9._5.checked) cost+=parseInt(number5.value)*15;
+
+
+
+if(parseInt(number1.value)>54){alert('Заявленное количество товара №1 превышает наличие'); cost=0;}
+
+if(parseInt(number2.value)>31){alert('Заявленное количество товара №2 превышает наличие'); cost=0;}
+
+if(parseInt(number3.value)>120){alert('Заявленное количество товара №3 превышает наличие'); cost=0;}
+
+if(parseInt(number4.value)>500){alert('Заявленное количество товара №4 превышает наличие'); cost=0;}
+
+if(parseInt(number5.value)>500){alert('Заявленное количество товара №5 превышает наличие'); cost=0;}
+	
+price.value=cost;	
+}
+
+
+//////////////////////10: Разворот натурального числа///////////////////////////
+
+function flip_number()
+{
+var num=f10.number.value;
+f10.number.value=num.split("").reverse().join("");
+}
+
+//////////////////////11: Определение всех делителей заданного натур. числа///////////////////////////
+
+function divider_of_number()
+{
+var num=parseInt(f11.number.value);
+var arr=[];
+
+for(var i=1; i<=num; i++)
+if(num%i==0) { arr.push(i);}
+
+alert(arr.join(","));
+}
+
+//////////////////////12: Узнать количество счастливых шестизначных билетов (сумма первых 3х цифр равна сумме 3х последних)///////////////////////////
+
+function find_answer()
+{
+var arr=[0,0,0,0,0,0];
+var count=0;
+
+for(arr[0]=0; arr[0]<=9; arr[0]++)
+	for(arr[1]=0; arr[1]<=9; arr[1]++)
+	for(arr[2]=0; arr[2]<=9; arr[2]++)
+	for(arr[3]=0; arr[3]<=9; arr[3]++)
+	for(arr[4]=0; arr[4]<=9; arr[4]++)
+	for(arr[5]=0; arr[5]<=9; arr[5]++)
+	if(arr[0]+arr[1]+arr[2]==arr[3]+arr[4]+arr[5])
+	count++;
+
+
+f12.answer.value=count;
+}
+
+//////////////////////13: Определение номера недели по дате///////////////////////////
+
+function find_week_number()
+{
+var currentDateTime = f13.date.valueAsDate;
+var startTimeOfCurrentYear = (new Date(currentDateTime.getFullYear(), 0, 1)).getTime();
+var currentTime = currentDateTime.getTime();
+var pastTimeOfStartCurrentYear = currentTime - startTimeOfCurrentYear;
+
+f13.week_number.value=parseInt((pastTimeOfStartCurrentYear / 3600000 / 168));
+}
+
+//////////////////////14: Определение количества слов в тексте///////////////////////////
+
+function count_words()
+{
+var s=_text.value;
+
+    s = s.replace(/(^\s*)|(\s*$)/gi,"");//убрать пробелы в начале и конце
+    s = s.replace(/[ ]{2,}/gi," ");//слить 2 и более пробела в один
+    s = s.replace(/\n /,"\n"); // исключаем переход на новую строку (он тут не нужен, но я оставил)
+	
+    _text.value=s.split(' ').length; 
+}
+
+//////////////////////15: Анимация///////////////////////////
+
+var tID; //переменная для очистки интервала
+
+function stopAnimate() {
+clearInterval(tID);
+} 
+
+function animateScript() {
+var    position = 64; //start position for the image slicer
+const  interval = _range.value; //100 ms of interval for the setInterval()
+const  diff = 64;     //diff as a variable for position offset
+
+tID = setInterval ( () => {
+document.getElementById("image").style.backgroundPosition = 
+`-${position}px 0px`; 
+//we use the ES6 template literal to insert the variable "position"
+if (position < 256)
+{ position = position + diff;}
+//we increment the position by 64 each time
+else
+{ position = 64; }
+//reset the position to 64px, once position exceeds 1536px
+}
+, interval ); //end of setInterval
+}
+
+//////////////////////16: Контроль корректности входных данных///////////////////////////
+
+function check_mail()
+{
+var r = /^\w+@\w+\.\w{2,4}$/i;
+
+if (!r.test(_mail.value)) 
+alert('Неверный адрес!');
+}
+</script>
+ 
+</head>
+<body>
+<form name="f1">
+1: Площадь треугольника <br>
+x1: <input type="text" name="x1" id="x1"> 
+y1: <input type="text" name="y1" id="y1"> <br>
+x2: <input type="text" name="x2" id="x2"> 
+y2: <input type="text" name="y2" id="y2"> <br>
+x3: <input type="text" name="x3" id="x3"> 
+y3: <input type="text" name="y3" id="y3"> <br>
+result: <input type="text" name="result" id="result" onFocus="S();">  
+</form> 
+
+<form name="f2">
+2: Замена полей <br>
+string1: <input type="text" name="string1" id="string1"> 
+string2: <input type="text" name="string2" id="string2" onBlur="change();"> 
+</form> 
+
+
+<form name="f3">
+3: Найти max (введите числа через запятую)<br>
+string1: <input type="text" name="string1" id="string1"> 
+		 <input type="button" value="Solve" onClick="find_max();"> 
+</form> 
+ 
+<form name="f4">
+4: Проверка условия существования треугольника <br>
+сторона1: <input type="text" name="string1" id="string1"> 
+сторона2: <input type="text" name="string2" id="string2">
+сторона3: <input type="text" name="string3" id="string3"> <br>
+<input type="button" value="Solve" onClick="solve();"> 
+</form>  
+
+5: Изменение размера картинки (можно увеличить до 4ых раз наведением курсора)<br>
+<img src="cat_pic.jpg"  height="150" onMouseover ="changeSizeImage(this)" /> <br>
+
+6: Изменение свойств линии<br>
+<form name="f6">
+<hr name="hr1" id="hr1" width="300">
+<input type="button" value="Longer" onClick="hr_longer();"> 
+<input type="button" value="Shorter" onClick="hr_shorter();"> 
+<input type="button" value="Left" onClick="hr_left();"> 
+<input type="button" value="Right" onClick="hr_right();">
+<input type="button" value="Reset" onClick="hr_reset();">  
+</form>  
+
+7: Определение стоимости анкеты<br>
+<form name="f7">
+   <select name="kurs" id="kurs">
+    <option disabled selected>Выберите курс</option>
+    <option value="C++">C++</option>
+    <option value="C#">C#</option>
+    <option value="PHP">PHP</option>
+    <option value="ASM">ASM</option>
+   </select>
+   
+   <select name="_length" id="_length">
+    <option disabled selected>Выберите длительность курса</option>
+    <option value="3month">3_month</option>
+    <option value="6month">6_month</option>
+   </select>
+   
+   <select name="language" id="language">
+    <option disabled selected>Выберите язык преподавателя</option>
+    <option value="eng">eng</option>
+    <option value="ukr">ukr</option>
+	<option value="oth">other</option>
+   </select>
+   
+   <select name="report_form" id="report_form">
+    <option disabled selected>Выберите форму отчетности</option>
+    <option value="exam">Екзамен</option>
+    <option value="kurs">Курсова робота</option>
+   </select>   
+   
+   <br>
+   <input type="button" value="Отправить" onClick="count_cost()">
+</form>
+
+8: Выбор картинки и/или цвета фону для таблицы в целом и для каждой ее ячейки<br>
+ 
+  <table border="1" id="table_f8"> 
+    <tr> <td></td> <td></td> <td></td> </tr> 
+    <tr> <td></td> <td></td> <td></td> </tr> 
+    <tr> <td></td> <td></td> <td></td> </tr> 
+  </table> 
+  
+   <select name="img_or_color" id="img_or_color">
+    <option value="_color">Цвет</option>
+    <option value="_image">Картинка</option>
+   </select> <br>
+
+   Введите цвет: <input type="text" value="green" name="_color" id="_color"> 
+   Введите номер ячейки: <input type="text" value="0" name="_cell" id="_cell"> 
+   
+   <input type="button" value="apply" onClick="edit_table()"> <br><br>
+   
+9: Расчет стоимости<br>
+
+<form name="f9">
+	<table>
+	<tr><td align="center">Товар:</td><td align="center">Количество:</td></tr>
+	<tr>
+    <td><input type="checkbox" id="_1" name="_1">
+    <label for="_1"> Доска ольха 35*25*1200 (54 шт.) 50грн/шт</label> </td>
+	<td><input type="text" value="0" name="number1" id="number1">  </td>
+	</tr>
+	<tr>
+    <td><input type="checkbox" id="_2" name="_2">
+    <label for="_2"> Доска дуб 35*25*1200 (31 шт.) 60грн/шт</label> </td>
+	<td><input type="text" value="0" name="number2" id="number2">  </td>
+	</tr>
+	<tr>
+    <td><input type="checkbox" id="_3" name="_3">
+    <label for="_3"> Доска сосна 35*25*1200 (120 шт.) 35грн/шт</label> </td>
+	<td><input type="text" value="0" name="number3" id="number3">  </td>
+	</tr>
+	<tr>
+    <td><input type="checkbox" id="_4" name="_4">
+    <label for="_4"> Круглый профиль ольха 17*1500 (500 шт.) 20грн/шт</label></td>
+	<td><input type="text" value="0" name="number4" id="number4"> </td>
+	</tr>
+	<tr>
+    <td><input type="checkbox" id="_5" name="_5">
+    <label for="_5"> Круглый профиль сосна 17*1500 (500 шт.) 15грн/шт</label></td>	
+	<td><input type="text"  value="0" name="number5" id="number5"></td>
+	</tr>
+	</table>
+	
+		
+   Стоимость: <input type="text" name="price" value="0" id="price">   
+   <input type="button" value="Расчитать" onClick="count_product_price()">
+</form>  <br>
+   
+10: Разворот натурального числа<br><br>
+
+<form name="f10">
+	Введите число: <input type="text" name="number" id="number">   
+   <input type="button" value="Развернуть" onClick="flip_number()">
+</form> <br>
+   
+11: Определение всех делителей заданного натур. числа<br><br>
+
+<form name="f11">
+	Введите число: <input type="text" name="number" id="number">   
+   <input type="button" value="Узнать все делители" onClick="divider_of_number()">
+</form> 
+ 
+<br>
+   
+12: Узнать количество счастливых шестизначных билетов (сумма первых 3х цифр равна сумме 3х последних)<br><br>
+
+<form name="f12">
+	Ответ: <input type="text" name="answer" id="answer">   
+   <input type="button" value="Узнать" onClick="find_answer()">
+</form> 
+
+13: Определение номера недели по дате<br><br>
+
+<form name="f13">
+	<input type="date" name="date" id="date"> <br> <br>
+	Ответ: <input type="text" name="week_number" id="week_number">   
+   <input type="button" value="Узнать" onClick="find_week_number()">
+</form> 
+
+14: Определение количества слов в тексте<br><br>
+
+<form name="f14">
+	Поле ввода: <input type="text" name="_text" id="_text">   
+   <input type="button" value="Узнать" onClick="count_words()">
+</form> 
+   
+15: Анимация
+
+<div id="demo">
+  <p id="image" onmouseover="animateScript()" onmouseout="stopAnimate()"> </p>
+</div>
+
+Anim speed: <input type="range" id="_range" name="_range" min="10" max="200" step="1" value="100"> <br> <br>
+ 
+16: Контроль корректности входных данных <br><br>
+<form name="f16">
+	Поле ввода: <input type="text" name="_mail" id="_mail">   
+   <input type="button" value="Войти куда-то" onClick="check_mail()">
+</form>
+ 
+</body>
+</html>
